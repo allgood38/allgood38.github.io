@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>How to break your git submodules</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/css/syntax.css">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css">
+
+    </head>
+    <body>
+
+        <div class="container">
+          <div class="site">
+            <div class="header">
+              <h1 class="title"><a href="/">Software Grit</a></h1>
+              <a class="extra" href="/">home</a>
+            </div>
+     
+                <h2>How to break your git submodules</h2>
+<p class="meta">13 May 2013</p>
+
+<div id="post">
+<p>I have been using a large variety of plugins in vim, and a few months ago I started using git submodules and pathogen to manage them. With the help of a script to take care of some of the common operations, such as updating all of the plugins at once and committing them, things worked pretty smoothly.</p>
+
+<p>Then one day I cloned the repository over to another computer and told git to update the submodules, where it then halted the procedure and asked me for my github username and password. This doesn&#8217;t make any sense though, since I don&#8217;t own the repository it was cloning from, and when I did enter the credentials it failed predictably saying it couldn&#8217;t find the repository under my username.</p>
+
+<p>The problem stems from my inexperience with git submodules, particularly with the way it handles changes to the submodule repositories.</p>
+
+<pre><code>[galactor][allgood38]$ tree -d -L 2
+.
+├── autoload
+├── bundle
+│   ├── command-t.git
+│   ├── gundo.vim.git
+│   ├── LaTeX-Box.git
+│   ├── nerdcommenter.git
+│   ├── nerdtree.git
+│   ├── ScrollColors.git
+│   ├── snipmate-snippets.git
+│   ├── supertab.git
+│   ├── syntastic.git
+│   ├── YouCompleteMe.git
+│   ...
+├── colors
+├── ftdetect
+├── ftplugin
+├── plugin
+├── snippets
+├── spell
+└── syntax</code></pre>
+
+<p>Above is the directory structure of my vimfiles repository. Each of the folders ending in <code>.git</code> are submodules. Submodules don&#8217;t need to end with this, its just the way I chose to handle it with my management script. It also makes it clear that the folder is in fact a submodule.</p>
+
+<p>The problem was created when I ran vim, and the plugin in the submodule folder altered some of the files, and when I was playing around with the plugins I think I may have committed the changes into the submodule. This is fine if you&#8217;re a dev working on a plugin, but I had now just created a commit, that would only be visible to me, I didn&#8217;t upload it to the remote url, which is what git uses to clone the submodule. So now any time I try to clone the repository and update the submodules, it looks for a commit the developer never made, causing it to fail.</p>
+
+<p>The first approach I took was removing the submodule completely and trying to re-add it, however given that I was trying to add it with the same submodule name, git realised there was still references to the old one in its index and refused to do anything.</p>
+
+<p>Eventually I learned that the <code>.git</code> folder within each of the submodule root directories is actually just a text file with a line that references where the real <code>.git</code> folder is within the parent (top-level) repository. As a side note, I noticed all my references where absolute, so if you were to try moving the entire parent repository to another location in the filesystem, submodules also fail.</p>
+
+<p>For example, this is the <code>.git</code> file (not folder) within one of the git submodule working directories:</p>
+
+<pre><code>gitdir: /home/allgood38/.git/vimfiles/.git/modules/\
+    vim/bundle/tabular.git</code></pre>
+
+<p>So I went into the parent&#8217;s <code>.git</code> folder and went to the path <code>.git/modules/.../submodule.git</code> which contains something very similar to a bare git repository. Once in there I moved one directory up and did:</p>
+
+<pre><code>rm -rf submodule.git/*
+git clone --bare submodule-url.git submodule.git</code></pre>
+
+<p>And now we have a bare repository with the correct HEAD pointer and everything. Now you go into the <code>submodule.git</code> again and open <code>config</code>. Remove the line that says <code>bare: true</code>, since submodules won&#8217;t actually work as bare repositories. Finally, go to the submodule path in your working directory and type:</p>
+
+<pre><code>git pull origin master</code></pre>
+
+<p>And the submodule will use the information from the bare repository we just clone to update all of the information. Now if you run <code>git submodule update</code>, you shouldn&#8217;t have any problems.</p>
+</div>
+
+
+            <div class="footer">
+              <div class="contact">
+                <p>
+                  Stephen K. Cripps<br />
+                  Queen's Computer Engineering Student<br />
+                  allgood38@gmail.com
+                </p>
+              </div>
+              <div class="contact">
+                <p>
+                  <a href="http://github.com/allgood38/">github.com/allgood38</a><br />
+                  <a href="http://twitter.com/allgood38/">twitter.com/allgood38</a><br />
+                </p>
+              </div>
+            </div>
+          </div>
+        </div> <!-- /container -->
+
+    </body>
+</html>
