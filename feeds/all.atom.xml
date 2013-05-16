@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Software Grit</title><link href="https://allgood38.github.io/" rel="alternate"></link><link href="https://allgood38.github.io/feeds/all.atom.xml" rel="self"></link><id>https://allgood38.github.io/</id><updated>2013-05-15T10:09:00-04:00</updated><entry><title>I may be no web developer, but I do know shell</title><link href="https://allgood38.github.io/i-may-be-no-web-developer-but-i-do-know-shell.html" rel="alternate"></link><updated>2013-05-15T10:09:00-04:00</updated><author><name>Stephen Cripps</name></author><id>tag:https://allgood38.github.io,2013-05-15:i-may-be-no-web-developer-but-i-do-know-shell.html</id><summary type="html">&lt;p&gt;I want to go through a quick run down of the commands I needed to run to make
+this site happen, excluding of course, configuring a github account. First
+I installed a static page generator called &lt;a href="http://docs.getpelican.com/en/3.2/"&gt;pelican&lt;/a&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo pip install pelican typogrify markdown
+
+&lt;span class="nv"&gt;$ &lt;/span&gt;mkdir blog; &lt;span class="nb"&gt;cd &lt;/span&gt;blog
+&lt;span class="nv"&gt;$ &lt;/span&gt;pelican-quickstart
+&lt;span class="nv"&gt;$ &lt;/span&gt;git init
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Then after copying in a theme I liked from &lt;a href="https://github.com/getpelican/pelican-themes"&gt;the community&lt;/a&gt;, I ran a couple
+commands from the documentation to generate completely standalone html files,
+ready to be uploaded to a web server. Even better I used a git submodule for
+the output and uploaded the html straight to github for hosting, as follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd &lt;/span&gt;output
+&lt;span class="nv"&gt;$ &lt;/span&gt;git init
+&lt;span class="nv"&gt;$ &lt;/span&gt;git add . &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; git commit -am &lt;span class="s2"&gt;&amp;quot;Adding html output&amp;quot;&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;git remote add github git@github.com:myusername/myusername.github.io.git
+&lt;span class="nv"&gt;$ &lt;/span&gt;git push github master
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And just like that the web site is live and ready to go. Its amazing that the
+hard work and dedication of volunteers, plus an awesome company like github,
+is able to make this so painless. It allows anyone to publish a good looking
+website fast. All you need to understand is some command line tools and the
+services they connect to.&lt;/p&gt;
+&lt;p&gt;And to keep things nice and organised (or unnecessarily complex, depending on your like of submodules), I did the following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; ../        &lt;span class="c"&gt;# Go back to the root repository&lt;/span&gt;
+&lt;span class="nv"&gt;$ &lt;/span&gt;git submodule add output
+&lt;span class="nv"&gt;$ &lt;/span&gt;git add output
+&lt;span class="nv"&gt;$ &lt;/span&gt;git commit -am &lt;span class="s2"&gt;&amp;quot;Added output as a submodule&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;I have been watching the technologies behind web development mutate and
+flourish as a technically savvy user for many years, only recently have
+I taken an interest in the immense amount of work that is required to make
+a good site.&lt;/p&gt;
+&lt;p&gt;Something that is aesthetically pleasing on various screen sizes, everything
+from large monitors to tiny high resolution mobile phone screens. Different
+platforms, browsers, plugins effect the fonts you know will work, the scripts
+you can run, but it still needs to be usable on all of them.&lt;/p&gt;
+&lt;p&gt;So when I looked at setting up a quick website where I could make posts like
+these I wasn't sure where to begin. On the one hand you have free services
+like &lt;a href="https://www.tumblr.com/"&gt;tumblr&lt;/a&gt;, &lt;a href="https://www.blogger.com/"&gt;blogger&lt;/a&gt;, &lt;a href="http://wordpress.com/"&gt;wordpress&lt;/a&gt; and on the other hand you write
+the HTML and CSS/HTML by hand and get it up on to an FTP site. Of course there
+are a mind-boggling number of methods between the two extremes, the one that
+stuck out for me was Jekyll. &lt;/p&gt;
+&lt;p&gt;Before I get into that, I should explain why I avoided the free services.
+Admittedly, I do like some of the themes offered and I don't mind reading blog
+posts on these sites. Generally the layout, color choices and so on are sane.
+However, you are giving a third party total access to the content, with no
+easy way to manage it from a local computer. The key is that the service is
+handling pretty much everything, you actually type the content right into the
+browser window.&lt;/p&gt;
+&lt;p&gt;Without this ability to keep a local and independent copy on a local machine,
+you lose the assurance that you will always be able to move your data to
+another site. Of course it would be pretty unlikely that a reputable service
+would leave you without a method of migrating your data, its just there is no
+guarantee. &lt;/p&gt;
+&lt;p&gt;So anyways back to Jekyll. Jekyll is a static web-site generator, you give it
+the content you want to publish in an easy to compose form (something like
+markdown or asciidoc) and it produces all the necessary html and css files to
+make up a very competent web-site. Whats more is that the site doesn't rely on
+anything but the files it has generated, you don't require a database
+connection or any other server-side logic. You can just upload the files to an
+FTP site and you're done.&lt;/p&gt;
+&lt;p&gt;Except that I didn't use Jekyll to build this site, its just that Jekyll is
+the first one I tried and understood, but it proceeded more flexibility and
+configuration right from the start than I wanted to deal with. With that said,
+you can do some pretty amazing things with Jekyll, the key being that you can
+edit the templates that are used to convert your content into HTML very
+easily.&lt;/p&gt;
+&lt;p&gt;I used a similar too called Pelican, which performs the same task, but
+provides a more complete environment right from the start. The key to all of
+this is that I was able to produce a very good looking site, which can be
+completely independent of any third party while knowing very little about web
+development itself. Its a very empowering realisation. &lt;/p&gt;
+&lt;p&gt;The trick was knowing how to use the command line to make these tools work,
+there are no gui's to automate the process of looking at the configuration
+files and its much easier to clone the tools repository (and even publish to
+a server) from the command line.&lt;/p&gt;
+&lt;p&gt;Whenever issues arose, I was able to look at the error messages output
+when I tried to launch a local instance of the development server used for
+previewing the site locally because they're just output to the standard error
+of the terminal.&lt;/p&gt;</summary><category term="publishing"></category><category term="python"></category><category term="bash"></category><category term="shell"></category></entry><entry><title>How to break your git submodules</title><link href="https://allgood38.github.io/how-to-break-your-git-submodules.html" rel="alternate"></link><updated>2013-05-13T11:30:00-04:00</updated><author><name>Stephen Cripps</name></author><id>tag:https://allgood38.github.io,2013-05-13:how-to-break-your-git-submodules.html</id><summary type="html">&lt;p&gt;I have been using a large variety of plugins in vim, and a few months ago I started using git submodules and pathogen to manage them. With the help of a script to take care of some of the common operations, such as updating all of the plugins at once and committing them, things worked pretty smoothly.&lt;/p&gt;
+&lt;p&gt;Then one day I cloned the repository over to another computer and told git to update the submodules, where it then halted the procedure and asked me for my github username and password. This doesn't make any sense though, since I don't own the repository it was cloning from, and when I did enter the credentials it failed predictably saying it couldn't find the repository under my username.&lt;/p&gt;
+&lt;p&gt;The problem stems from my inexperience with git submodules, particularly with the way it handles changes to the submodule repositories. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;[&lt;/span&gt;galactor&lt;span class="o"&gt;][&lt;/span&gt;allgood38&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;tree -d -L 2
+    .
+    ├── autoload
+    ├── bundle
+    │   ├── &lt;span class="nb"&gt;command&lt;/span&gt;-t.git
+    │   ├── gundo.vim.git
+    │   ├── LaTeX-Box.git
+    │   ├── nerdcommenter.git
+    │   ├── nerdtree.git
+    │   ├── ScrollColors.git
+    │   ├── snipmate-snippets.git
+    │   ├── supertab.git
+    │   ├── syntastic.git
+    │   ├── YouCompleteMe.git
+    │   ...
+    ├── colors
+    ├── ftdetect
+    ├── ftplugin
+    ├── plugin
+    ├── snippets
+    ├── spell
+    └── syntax
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Above is the directory structure of my vimfiles repository. Each of the folders ending in &lt;code&gt;.git&lt;/code&gt; are submodules. Submodules don't need to end with this, its just the way I chose to handle it with my management script. It also makes it clear that the folder is in fact a submodule. &lt;/p&gt;
+&lt;p&gt;The problem was created when I ran vim, and the plugin in the submodule folder altered some of the files, and when I was playing around with the plugins I think I may have committed the changes into the submodule. This is fine if you're a dev working on a plugin, but I had now just created a commit, that would only be visible to me, I didn't upload it to the remote url, which is what git uses to clone the submodule. So now any time I try to clone the repository and update the submodules, it looks for a commit the developer never made, causing it to fail.&lt;/p&gt;
+&lt;p&gt;The first approach I took was removing the submodule completely and trying to re-add it, however given that I was trying to add it with the same submodule name, git realised there was still references to the old one in its index and refused to do anything.&lt;/p&gt;
+&lt;p&gt;Eventually I learned that the &lt;code&gt;.git&lt;/code&gt; folder within each of the submodule root directories is actually just a text file with a line that references where the real &lt;code&gt;.git&lt;/code&gt; folder is within the parent (top-level) repository. As a side note, I noticed all my references where absolute, so if you were to try moving the entire parent repository to another location in the filesystem, submodules also fail.&lt;/p&gt;
+&lt;p&gt;For example, this is the &lt;code&gt;.git&lt;/code&gt; file (not folder) within one of the git submodule working directories:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;gitdir: /home/allgood38/.git/vimfiles/.git/modules/&lt;span class="se"&gt;\&lt;/span&gt;
+    vim/bundle/tabular.git
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;So I went into the parent's &lt;code&gt;.git&lt;/code&gt; folder and went to the path &lt;code&gt;.git/modules/.../submodule.git&lt;/code&gt; which contains something very similar to a bare git repository. Once in there I moved one directory up and did:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;rm -rf submodule.git/*
+git clone --bare submodule-url.git submodule.git
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And now we have a bare repository with the correct HEAD pointer and everything. Now you go into the &lt;code&gt;submodule.git&lt;/code&gt; again and open &lt;code&gt;config&lt;/code&gt;. Remove the line that says &lt;code&gt;bare: true&lt;/code&gt;, since submodules won't actually work as bare repositories. Finally, go to the submodule path in your working directory and type:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;git pull origin master
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And the submodule will use the information from the bare repository we just clone to update all of the information. Now if you run &lt;code&gt;git submodule update&lt;/code&gt;, you shouldn't have any problems.&lt;/p&gt;</summary><category term="programming"></category><category term="git"></category></entry></feed>
