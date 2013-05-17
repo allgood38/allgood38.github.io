@@ -1,5 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Software Grit</title><link href="http://allgood38.github.io/" rel="alternate"></link><link href="http://allgood38.github.io/feeds/all.atom.xml" rel="self"></link><id>http://allgood38.github.io/</id><updated>2013-05-15T10:09:00-04:00</updated><entry><title>I may be no web developer, but I do know shell</title><link href="http://allgood38.github.io/i-may-be-no-web-developer-but-i-do-know-shell.html" rel="alternate"></link><updated>2013-05-15T10:09:00-04:00</updated><author><name>Stephen Cripps</name></author><id>tag:allgood38.github.io,2013-05-15:i-may-be-no-web-developer-but-i-do-know-shell.html</id><summary type="html">&lt;p&gt;I want to go through a quick run down of the commands I needed to run to make
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Software Grit</title><link href="http://allgood38.github.io/" rel="alternate"></link><link href="http://allgood38.github.io/feeds/all.atom.xml" rel="self"></link><id>http://allgood38.github.io/</id><updated>2013-05-16T19:08:06-04:00</updated><entry><title>What beginners should know about vim</title><link href="http://allgood38.github.io/what-beginners-should-know-about-vim.html" rel="alternate"></link><updated>2013-05-16T19:08:06-04:00</updated><author><name>Stephen Cripps</name></author><id>tag:allgood38.github.io,2013-05-16:what-beginners-should-know-about-vim.html</id><summary type="html">&lt;p&gt;Vim is a great editor, I've been using it for several years, and I don't think
+there will ever be any going back for me. The commands and "shortcuts" are so
+engrained in how I expect to type that I shrug off any tool that isn't vim
+like. Sometimes to the point of being just plain irrational. Either way,
+I think everyone should at least try to join the cult of vim at one point or
+another. &lt;/p&gt;
+&lt;p&gt;So when you open vim for the first time, you might be presented with a welcome
+screen, although you may not even get that (I didn't know about vimtutor for
+the longest time because of it). Hopefully someone has already told you about
+mode oriented editing, how you mostly want to stay in "normal" mode, and only
+use "insert" mode when you're entering content.&lt;/p&gt;
+&lt;h3&gt;Basic functionality&lt;/h3&gt;
+&lt;p&gt;When you're in insert mode and you want to backspace past the beginning of the
+line, you will find that you just can't. The cursor stops and you need to exit
+and get into normal mode to delete the line and move the cursor up. I remember
+feeling panicked, even the most basic function I would expect from any
+application is not present, what kind of horrible alien monster is this?! It
+wasn't until I started looking up how to customise vim that I learned that
+this was just the default setting of many.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;backspace&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;indent&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;eol&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="k"&gt;start&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The above is a command that is entered in vim's command line, which you access by typing "&lt;code&gt;:&lt;/code&gt;" in normal mode. The following is an excerpt from my "&lt;code&gt;.vimrc&lt;/code&gt;" file. After entering the command, the backspace will do exactly what you would expect, when you presse backspace, it deletes something! (in insert mode). The following are some more settings that make you're vim feel more natural.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;nocompatible&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; Turn off vi compatibility mode&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;spell&lt;/span&gt;                       &lt;span class="c"&gt;&amp;quot; Turn on spell checking&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;backspace&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;indent&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;eol&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="k"&gt;start&lt;/span&gt;  &lt;span class="c"&gt;&amp;quot; Allow backspace in all circumstance&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;history&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1000&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; Allow undo, remember last command with up&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;mouse&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="k"&gt;a&lt;/span&gt;             &lt;span class="c"&gt;&amp;quot; Allow selection with the mouse in all mode&lt;/span&gt;
+
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;ruler&lt;/span&gt;               &lt;span class="c"&gt;&amp;quot; Text in status bar shows cursor location&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;incsearch&lt;/span&gt;           &lt;span class="c"&gt;&amp;quot; As you type in search pattern, highlight it&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="k"&gt;number&lt;/span&gt;              &lt;span class="c"&gt;&amp;quot; Line numbers on left-hand side&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;showcmd&lt;/span&gt;             &lt;span class="c"&gt;&amp;quot; Update status line when selecting text&lt;/span&gt;
+
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;tabstop&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;           &lt;span class="c"&gt;&amp;quot; Number of spaces a tab represents&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;shiftwidth&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; Number of spaces shifted with a shift &amp;gt;&amp;gt;&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;expandtab&lt;/span&gt;           &lt;span class="c"&gt;&amp;quot; Use spaces rather than hard tab characters&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;softtabstop&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; Tab spaces in no hard tab mode&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;autoindent&lt;/span&gt;          &lt;span class="c"&gt;&amp;quot; When you press enter, vim puts cursor in a&lt;/span&gt;
+&lt;span class="c"&gt;                        &amp;quot; good place&lt;/span&gt;
+
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;scrolloff&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;5&lt;/span&gt;         &lt;span class="c"&gt;&amp;quot; When cursor is 5 lines from bottom, scroll&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;ignorecase&lt;/span&gt;          &lt;span class="c"&gt;&amp;quot; Ignore case in searches&lt;/span&gt;
+
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;nohid&lt;/span&gt;               &lt;span class="c"&gt;&amp;quot; Don&amp;#39;t let user hide text buffer if unusaved&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;encoding&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;utf&lt;span class="m"&gt;-8&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; Default UTF-8 text encoding, you want this&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;fileencoding&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;utf&lt;span class="m"&gt;-8&lt;/span&gt;  &lt;span class="c"&gt;&amp;quot; unless you&amp;#39;re using Notepad&lt;/span&gt;
+
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;colorcolumn&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;74&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; Highlight this column&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Thats a lot to take in, but I recommend you consider using them. All of these are personal preference, especially the choice to convert hard tabs into spaces, but thats another story all together.&lt;/p&gt;
+&lt;p&gt;The other thing is that you really don't want to have to type so many commands
+into vim every time you open it to edit a file. Whenever you open vim, it
+looks for a file where you would put these commands. It just reads them line
+by line and executes them every time you start vim. This hints at the
+incredible configure-ability of vim, but for now lets focus on getting them
+into your vim.&lt;/p&gt;
+&lt;p&gt;Vim expects you to have a "home folder", historically this where where
+configuration files for all your personal preferences would go for a variety
+of programs. If you're running linux, you will know at least that your home
+folder is filled with hidden config files. &lt;strong&gt;To find out where vim thinks home
+is&lt;/strong&gt; try entering the following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;:&lt;/span&gt; echo $HOME
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;If you're on Windows, you would go to that directory and create a file called
+&lt;code&gt;_vimrc&lt;/code&gt;, on Linux or Mac, you would create a file called &lt;code&gt;.vimrc&lt;/code&gt;. Take the
+above code and copy it into your vimrc file.&lt;/p&gt;
+&lt;h3&gt;The built-in help&lt;/h3&gt;
+&lt;p&gt;As always, vim has some pretty impressive documentation you can consult. Just
+use the command:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;h&lt;/span&gt; keyword
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And vim will open a buffer where it thinks the search term is most relevant.
+On that note, when you're navigating the help, you will see certain words that
+are a different color. If you put the cursor on them and press &lt;code&gt;&amp;lt;Ctl-[&amp;gt;&lt;/code&gt;, you
+will be taken to the help section related to that term. To get back you press
+&lt;code&gt;&amp;lt;Ctl-t&amp;gt;&lt;/code&gt;. Why this is, I'm not sure, but vim has a pretty cool history.&lt;/p&gt;
+&lt;p&gt;If you're bored, search for the keyboard layout vim was originally intended
+for, suddenly using the &lt;code&gt;&amp;lt;ESC&amp;gt;&lt;/code&gt; key all the time will make a lot more sense.&lt;/p&gt;
+&lt;h3&gt;Multiple Windows?!&lt;/h3&gt;
+&lt;p&gt;Yep, the help command casually creates a new window on the screen. To switch
+between them press &lt;code&gt;&amp;lt;Ctl-w&amp;gt;&lt;/code&gt; then &lt;code&gt;j&lt;/code&gt;, where j is to go down, as per the hjkl
+navigation scheme. &lt;/p&gt;
+&lt;p&gt;I think however, window navigation is beyond the scope of this.&lt;/p&gt;</summary><category term="programming"></category><category term="text"></category><category term="vim"></category></entry><entry><title>I may be no web developer, but I do know shell</title><link href="http://allgood38.github.io/i-may-be-no-web-developer-but-i-do-know-shell.html" rel="alternate"></link><updated>2013-05-15T10:09:00-04:00</updated><author><name>Stephen Cripps</name></author><id>tag:allgood38.github.io,2013-05-15:i-may-be-no-web-developer-but-i-do-know-shell.html</id><summary type="html">&lt;p&gt;I want to go through a quick run down of the commands I needed to run to make
 this site happen, excluding of course, configuring a github account. First
 I installed a static page generator called &lt;a href="http://docs.getpelican.com/en/3.2/"&gt;pelican&lt;/a&gt;:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;sudo pip install pelican typogrify markdown
@@ -135,4 +225,5 @@ git clone --bare submodule-url.git submodule.git
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;And the submodule will use the information from the bare repository we just clone to update all of the information. Now if you run &lt;code&gt;git submodule update&lt;/code&gt;, you shouldn't have any problems.&lt;/p&gt;</summary><category term="programming"></category><category term="git"></category></entry></feed>
+&lt;p&gt;And the submodule will use the information from the bare repository we just clone to update all of the information. Now if you run &lt;code&gt;git submodule update&lt;/code&gt;, you shouldn't have any problems.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;UPDATE&lt;/em&gt;: This doesn't appear to be a permanent solution, but it does get the job done, use with caution.&lt;/p&gt;</summary><category term="programming"></category><category term="git"></category></entry></feed>

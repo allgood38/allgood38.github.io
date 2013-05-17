@@ -35,8 +35,122 @@
 
                             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://allgood38.github.io/i-may-be-no-web-developer-but-i-do-know-shell.html">I may be no web developer, but I do know shell</a></h1> 
+                    <h1 class="entry-title"><a href="http://allgood38.github.io/what-beginners-should-know-about-vim.html">What beginners should know about vim</a></h1> 
                     <footer class="post-info">
+        <abbr class="published" title="2013-05-16T19:08:06">
+                Thu 16 May 2013
+        </abbr>
+
+                <address class="vcard author">
+                By <a class="url fn" href="http://allgood38.github.io/author/stephen-cripps.html">Stephen Cripps</a>
+        </address>
+        <p>In <a href="http://allgood38.github.io/category/programming.html">Programming</a>. </p>
+<p>tags: <a href="http://allgood38.github.io/tag/programming.html">programming</a><a href="http://allgood38.github.io/tag/text.html">text</a><a href="http://allgood38.github.io/tag/vim.html">vim</a></p></footer><!-- /.post-info --><p>Vim is a great editor, I've been using it for several years, and I don't think
+there will ever be any going back for me. The commands and "shortcuts" are so
+engrained in how I expect to type that I shrug off any tool that isn't vim
+like. Sometimes to the point of being just plain irrational. Either way,
+I think everyone should at least try to join the cult of vim at one point or
+another. </p>
+<p>So when you open vim for the first time, you might be presented with a welcome
+screen, although you may not even get that (I didn't know about vimtutor for
+the longest time because of it). Hopefully someone has already told you about
+mode oriented editing, how you mostly want to stay in "normal" mode, and only
+use "insert" mode when you're entering content.</p>
+<h3>Basic functionality</h3>
+<p>When you're in insert mode and you want to backspace past the beginning of the
+line, you will find that you just can't. The cursor stops and you need to exit
+and get into normal mode to delete the line and move the cursor up. I remember
+feeling panicked, even the most basic function I would expect from any
+application is not present, what kind of horrible alien monster is this?! It
+wasn't until I started looking up how to customise vim that I learned that
+this was just the default setting of many.</p>
+<div class="highlight"><pre><span class="p">:</span> <span class="k">set</span> <span class="nb">backspace</span><span class="p">=</span>indent<span class="p">,</span><span class="nb">eol</span><span class="p">,</span><span class="k">start</span>
+</pre></div>
+
+
+<p>The above is a command that is entered in vim's command line, which you access by typing "<code>:</code>" in normal mode. The following is an excerpt from my "<code>.vimrc</code>" file. After entering the command, the backspace will do exactly what you would expect, when you presse backspace, it deletes something! (in insert mode). The following are some more settings that make you're vim feel more natural.</p>
+<div class="highlight"><pre><span class="k">set</span> <span class="nb">nocompatible</span>        <span class="c">&quot; Turn off vi compatibility mode</span>
+<span class="k">set</span> <span class="k">spell</span>                       <span class="c">&quot; Turn on spell checking</span>
+<span class="k">set</span> <span class="nb">backspace</span><span class="p">=</span>indent<span class="p">,</span><span class="nb">eol</span><span class="p">,</span><span class="k">start</span>  <span class="c">&quot; Allow backspace in all circumstance</span>
+<span class="k">set</span> <span class="k">history</span><span class="p">=</span><span class="m">1000</span>        <span class="c">&quot; Allow undo, remember last command with up</span>
+<span class="k">set</span> <span class="nb">mouse</span><span class="p">=</span><span class="k">a</span>             <span class="c">&quot; Allow selection with the mouse in all mode</span>
+
+<span class="k">set</span> <span class="nb">ruler</span>               <span class="c">&quot; Text in status bar shows cursor location</span>
+<span class="k">set</span> <span class="nb">incsearch</span>           <span class="c">&quot; As you type in search pattern, highlight it</span>
+<span class="k">set</span> <span class="k">number</span>              <span class="c">&quot; Line numbers on left-hand side</span>
+<span class="k">set</span> <span class="nb">showcmd</span>             <span class="c">&quot; Update status line when selecting text</span>
+
+<span class="k">set</span> <span class="nb">tabstop</span><span class="p">=</span><span class="m">4</span>           <span class="c">&quot; Number of spaces a tab represents</span>
+<span class="k">set</span> <span class="nb">shiftwidth</span><span class="p">=</span><span class="m">4</span>        <span class="c">&quot; Number of spaces shifted with a shift &gt;&gt;</span>
+<span class="k">set</span> <span class="nb">expandtab</span>           <span class="c">&quot; Use spaces rather than hard tab characters</span>
+<span class="k">set</span> <span class="nb">softtabstop</span><span class="p">=</span><span class="m">4</span>       <span class="c">&quot; Tab spaces in no hard tab mode</span>
+<span class="k">set</span> <span class="nb">autoindent</span>          <span class="c">&quot; When you press enter, vim puts cursor in a</span>
+<span class="c">                        &quot; good place</span>
+
+<span class="k">set</span> <span class="nb">scrolloff</span><span class="p">=</span><span class="m">5</span>         <span class="c">&quot; When cursor is 5 lines from bottom, scroll</span>
+<span class="k">set</span> <span class="nb">ignorecase</span>          <span class="c">&quot; Ignore case in searches</span>
+
+<span class="k">set</span> <span class="nb">nohid</span>               <span class="c">&quot; Don&#39;t let user hide text buffer if unusaved</span>
+<span class="k">set</span> <span class="nb">encoding</span><span class="p">=</span>utf<span class="m">-8</span>      <span class="c">&quot; Default UTF-8 text encoding, you want this</span>
+<span class="k">set</span> <span class="nb">fileencoding</span><span class="p">=</span>utf<span class="m">-8</span>  <span class="c">&quot; unless you&#39;re using Notepad</span>
+
+<span class="k">set</span> <span class="nb">colorcolumn</span><span class="p">=</span><span class="m">74</span>      <span class="c">&quot; Highlight this column</span>
+</pre></div>
+
+
+<p>Thats a lot to take in, but I recommend you consider using them. All of these are personal preference, especially the choice to convert hard tabs into spaces, but thats another story all together.</p>
+<p>The other thing is that you really don't want to have to type so many commands
+into vim every time you open it to edit a file. Whenever you open vim, it
+looks for a file where you would put these commands. It just reads them line
+by line and executes them every time you start vim. This hints at the
+incredible configure-ability of vim, but for now lets focus on getting them
+into your vim.</p>
+<p>Vim expects you to have a "home folder", historically this where where
+configuration files for all your personal preferences would go for a variety
+of programs. If you're running linux, you will know at least that your home
+folder is filled with hidden config files. <strong>To find out where vim thinks home
+is</strong> try entering the following:</p>
+<div class="highlight"><pre><span class="p">:</span> echo $HOME
+</pre></div>
+
+
+<p>If you're on Windows, you would go to that directory and create a file called
+<code>_vimrc</code>, on Linux or Mac, you would create a file called <code>.vimrc</code>. Take the
+above code and copy it into your vimrc file.</p>
+<h3>The built-in help</h3>
+<p>As always, vim has some pretty impressive documentation you can consult. Just
+use the command:</p>
+<div class="highlight"><pre><span class="p">:</span> <span class="k">h</span> keyword
+</pre></div>
+
+
+<p>And vim will open a buffer where it thinks the search term is most relevant.
+On that note, when you're navigating the help, you will see certain words that
+are a different color. If you put the cursor on them and press <code>&lt;Ctl-[&gt;</code>, you
+will be taken to the help section related to that term. To get back you press
+<code>&lt;Ctl-t&gt;</code>. Why this is, I'm not sure, but vim has a pretty cool history.</p>
+<p>If you're bored, search for the keyboard layout vim was originally intended
+for, suddenly using the <code>&lt;ESC&gt;</code> key all the time will make a lot more sense.</p>
+<h3>Multiple Windows?!</h3>
+<p>Yep, the help command casually creates a new window on the screen. To switch
+between them press <code>&lt;Ctl-w&gt;</code> then <code>j</code>, where j is to go down, as per the hjkl
+navigation scheme. </p>
+<p>I think however, window navigation is beyond the scope of this.</p><p>There are <a href="http://allgood38.github.io/what-beginners-should-know-about-vim.html#disqus_thread">comments</a>.</p>                </article>
+                            </aside><!-- /#featured -->
+                            <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+                                                        
+
+                 
+                        <li><article class="hentry">    
+                <header>
+                        <h1><a href="http://allgood38.github.io/i-may-be-no-web-developer-but-i-do-know-shell.html" rel="bookmark" title="Permalink to I may be no web developer, but I do know shell">I may be no web developer, but I do know shell</a></h1>
+                </header>
+                
+                <div class="entry-content">
+                <footer class="post-info">
         <abbr class="published" title="2013-05-15T10:09:00">
                 Wed 15 May 2013
         </abbr>
@@ -45,100 +159,11 @@
                 By <a class="url fn" href="http://allgood38.github.io/author/stephen-cripps.html">Stephen Cripps</a>
         </address>
         <p>In <a href="http://allgood38.github.io/category/misc.html">Misc</a>. </p>
-<p>tags: <a href="http://allgood38.github.io/tag/publishing.html">publishing</a><a href="http://allgood38.github.io/tag/python.html">python</a><a href="http://allgood38.github.io/tag/bash.html">bash</a><a href="http://allgood38.github.io/tag/shell.html">shell</a></p></footer><!-- /.post-info --><p>I want to go through a quick run down of the commands I needed to run to make
-this site happen, excluding of course, configuring a github account. First
-I installed a static page generator called <a href="http://docs.getpelican.com/en/3.2/">pelican</a>:</p>
-<div class="highlight"><pre><span class="nv">$ </span>sudo pip install pelican typogrify markdown
-
-<span class="nv">$ </span>mkdir blog; <span class="nb">cd </span>blog
-<span class="nv">$ </span>pelican-quickstart
-<span class="nv">$ </span>git init
-</pre></div>
-
-
-<p>Then after copying in a theme I liked from <a href="https://github.com/getpelican/pelican-themes">the community</a>, I ran a couple
-commands from the documentation to generate completely standalone html files,
-ready to be uploaded to a web server. Even better I used a git submodule for
-the output and uploaded the html straight to github for hosting, as follows:</p>
-<div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd </span>output
-<span class="nv">$ </span>git init
-<span class="nv">$ </span>git add . <span class="o">&amp;&amp;</span> git commit -am <span class="s2">&quot;Adding html output&quot;</span>
-<span class="nv">$ </span>git remote add github git@github.com:myusername/myusername.github.io.git
-<span class="nv">$ </span>git push github master
-</pre></div>
-
-
-<p>And just like that the web site is live and ready to go. Its amazing that the
-hard work and dedication of volunteers, plus an awesome company like github,
-is able to make this so painless. It allows anyone to publish a good looking
-website fast. All you need to understand is some command line tools and the
-services they connect to.</p>
-<p>And to keep things nice and organised (or unnecessarily complex, depending on your like of submodules), I did the following:</p>
-<div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ../        <span class="c"># Go back to the root repository</span>
-<span class="nv">$ </span>git submodule add output
-<span class="nv">$ </span>git add output
-<span class="nv">$ </span>git commit -am <span class="s2">&quot;Added output as a submodule&quot;</span>
-</pre></div>
-
-
-<p>I have been watching the technologies behind web development mutate and
-flourish as a technically savvy user for many years, only recently have
-I taken an interest in the immense amount of work that is required to make
-a good site.</p>
-<p>Something that is aesthetically pleasing on various screen sizes, everything
-from large monitors to tiny high resolution mobile phone screens. Different
-platforms, browsers, plugins effect the fonts you know will work, the scripts
-you can run, but it still needs to be usable on all of them.</p>
-<p>So when I looked at setting up a quick website where I could make posts like
-these I wasn't sure where to begin. On the one hand you have free services
-like <a href="https://www.tumblr.com/">tumblr</a>, <a href="https://www.blogger.com/">blogger</a>, <a href="http://wordpress.com/">wordpress</a> and on the other hand you write
-the HTML and CSS/HTML by hand and get it up on to an FTP site. Of course there
-are a mind-boggling number of methods between the two extremes, the one that
-stuck out for me was Jekyll. </p>
-<p>Before I get into that, I should explain why I avoided the free services.
-Admittedly, I do like some of the themes offered and I don't mind reading blog
-posts on these sites. Generally the layout, color choices and so on are sane.
-However, you are giving a third party total access to the content, with no
-easy way to manage it from a local computer. The key is that the service is
-handling pretty much everything, you actually type the content right into the
-browser window.</p>
-<p>Without this ability to keep a local and independent copy on a local machine,
-you lose the assurance that you will always be able to move your data to
-another site. Of course it would be pretty unlikely that a reputable service
-would leave you without a method of migrating your data, its just there is no
-guarantee. </p>
-<p>So anyways back to Jekyll. Jekyll is a static web-site generator, you give it
-the content you want to publish in an easy to compose form (something like
-markdown or asciidoc) and it produces all the necessary html and css files to
-make up a very competent web-site. Whats more is that the site doesn't rely on
-anything but the files it has generated, you don't require a database
-connection or any other server-side logic. You can just upload the files to an
-FTP site and you're done.</p>
-<p>Except that I didn't use Jekyll to build this site, its just that Jekyll is
-the first one I tried and understood, but it proceeded more flexibility and
-configuration right from the start than I wanted to deal with. With that said,
-you can do some pretty amazing things with Jekyll, the key being that you can
-edit the templates that are used to convert your content into HTML very
-easily.</p>
-<p>I used a similar too called Pelican, which performs the same task, but
-provides a more complete environment right from the start. The key to all of
-this is that I was able to produce a very good looking site, which can be
-completely independent of any third party while knowing very little about web
-development itself. Its a very empowering realisation. </p>
-<p>The trick was knowing how to use the command line to make these tools work,
-there are no gui's to automate the process of looking at the configuration
-files and its much easier to clone the tools repository (and even publish to
-a server) from the command line.</p>
-<p>Whenever issues arose, I was able to look at the error messages output
-when I tried to launch a local instance of the development server used for
-previewing the site locally because they're just output to the standard error
-of the terminal.</p><p>There are <a href="http://allgood38.github.io/i-may-be-no-web-developer-but-i-do-know-shell.html#disqus_thread">comments</a>.</p>                </article>
-                            </aside><!-- /#featured -->
-                            <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
-                                                        
+<p>tags: <a href="http://allgood38.github.io/tag/publishing.html">publishing</a><a href="http://allgood38.github.io/tag/python.html">python</a><a href="http://allgood38.github.io/tag/bash.html">bash</a><a href="http://allgood38.github.io/tag/shell.html">shell</a></p></footer><!-- /.post-info -->                <p>My Knowledge of web development is very limited, but with the help of some quick tutorials on the web, I was able to make this page from some basic know-how</p>
+                <a class="readmore" href="http://allgood38.github.io/i-may-be-no-web-developer-but-i-do-know-shell.html">read more</a>
+                <p>There are <a href="http://allgood38.github.io/i-may-be-no-web-developer-but-i-do-know-shell.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+                                    
 
                  
                         <li><article class="hentry">    
@@ -156,7 +181,7 @@ of the terminal.</p><p>There are <a href="http://allgood38.github.io/i-may-be-no
                 By <a class="url fn" href="http://allgood38.github.io/author/stephen-cripps.html">Stephen Cripps</a>
         </address>
         <p>In <a href="http://allgood38.github.io/category/programming.html">Programming</a>. </p>
-<p>tags: <a href="http://allgood38.github.io/tag/programming.html">programming</a><a href="http://allgood38.github.io/tag/git.html">git</a></p></footer><!-- /.post-info -->                <p>Getting used to the ins and outs of git submodules</p>
+<p>tags: <a href="http://allgood38.github.io/tag/programming.html">programming</a><a href="http://allgood38.github.io/tag/git.html">git</a></p></footer><!-- /.post-info -->                <p>When you try to run git submodule update and it fails horribly, know that I have felt your pain.</p>
                 <a class="readmore" href="http://allgood38.github.io/how-to-break-your-git-submodules.html">read more</a>
                 <p>There are <a href="http://allgood38.github.io/how-to-break-your-git-submodules.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
             </article></li>
@@ -166,6 +191,14 @@ of the terminal.</p><p>There are <a href="http://allgood38.github.io/i-may-be-no
                             </ol><!-- /#posts-list -->
             </section><!-- /#content -->
                     <section id="extras" class="body">
+                        <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                                                    <li><a href="http://getpelican.com/">Pelican</a></li>
+                                                    <li><a href="http://python.org/">Python.org</a></li>
+                                                    <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                                                </ul>
+                </div><!-- /.blogroll -->
                         </section><!-- /#extras -->
 
         <footer id="contentinfo" class="body">
