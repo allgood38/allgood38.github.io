@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Stow and update alternatives</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="http://allgood38.github.io/theme/css/main.css" type="text/css" />
+   
+
+        <!--[if IE]>
+                <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+        <!--[if lte IE 7]>
+                <link rel="stylesheet" type="text/css" media="all" href="http://allgood38.github.io/css/ie.css"/>
+                <script src="http://allgood38.github.io/js/IE8.js" type="text/javascript"></script><![endif]-->
+
+        <!--[if lt IE 7]>
+                <link rel="stylesheet" type="text/css" media="all" href="http://allgood38.github.io/css/ie6.css"/><![endif]-->
+
+</head>
+
+<body id="index" class="home">
+<a href="https://github.com/allgood38">
+<img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" />
+</a>
+        <header id="banner" class="body">
+                <h1><a href="http://allgood38.github.io">Software Grit  <strong>All that is shell</strong></a></h1>
+                <nav><ul>
+                                                                    <li><a href="http://allgood38.github.io/pages/about-this-blog.html">About this blog</a></li>
+                                                                    <li ><a href="http://allgood38.github.io/category/misc.html">Misc</a></li>
+                                    <li ><a href="http://allgood38.github.io/category/programming.html">Programming</a></li>
+                                </ul></nav>
+        </header><!-- /#banner -->
+                
+<section id="content" class="body">    
+    <h1 class="entry-title">Stow and update alternatives</h1>
+        <p>update-alternatives --install "/usr/bin/vim" editor "/usr/local/bin/vim" 100</p>
+<p>Vim is actually stored at </p>
+<div class="highlight"><pre><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">stow</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">vim</span>
+</pre></div>
+
+
+<p>And was installed using</p>
+<div class="highlight"><pre>cd /opt/vim
+./configure ... --prefix=/usr/local/stow/vim
+make &amp;&amp; sudo make install
+cd /usr/local/stow
+sudo stow vim
+</pre></div>
+
+
+<p>But because of the update alternatives command, there is also a symlink
+installed in</p>
+<div class="highlight"><pre><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">vim</span>
+</pre></div>
+
+
+<p>And thanks to the update alternatives command, the bash <code>$EDITOR</code> variable is
+now pointing to vim, but should it stop working, it will automatically change
+it to something else, like nano.</p>
+</section>
+        <section id="extras" class="body">
+                        <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                                                    <li><a href="http://getpelican.com/">Pelican</a></li>
+                                                    <li><a href="http://python.org/">Python.org</a></li>
+                                                    <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                                                </ul>
+                </div><!-- /.blogroll -->
+                        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+    try {
+        var pageTracker = _gat._getTracker("UA-40985552-1");
+    pageTracker._trackPageview();
+    } catch(err) {}</script>
+<script type="text/javascript">
+    var disqus_shortname = 'softwaregrit';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>
