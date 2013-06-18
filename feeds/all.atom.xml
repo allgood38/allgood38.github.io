@@ -1,5 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Software Grit</title><link href="http://allgood38.github.io/" rel="alternate"></link><link href="http://allgood38.github.io/feeds/all.atom.xml" rel="self"></link><id>http://allgood38.github.io/</id><updated>2013-05-16T19:08:06-04:00</updated><entry><title>What beginners should know about vim</title><link href="http://allgood38.github.io/what-beginners-should-know-about-vim.html" rel="alternate"></link><updated>2013-05-16T19:08:06-04:00</updated><author><name>Stephen Cripps</name></author><id>tag:allgood38.github.io,2013-05-16:what-beginners-should-know-about-vim.html</id><summary type="html">&lt;p&gt;Vim is a great editor, I've been using it for several years, and I don't think
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Software Grit</title><link href="http://allgood38.github.io/" rel="alternate"></link><link href="http://allgood38.github.io/feeds/all.atom.xml" rel="self"></link><id>http://allgood38.github.io/</id><updated>2013-06-18T13:17:41-04:00</updated><entry><title>A snapshot of your computer with dd, pv and gzip - Part 1</title><link href="http://allgood38.github.io/a-snapshot-of-your-computer-with-dd-pv-and-gzip-part-1.html" rel="alternate"></link><updated>2013-06-18T13:17:41-04:00</updated><author><name>Stephen Cripps</name></author><id>tag:allgood38.github.io,2013-06-18:a-snapshot-of-your-computer-with-dd-pv-and-gzip-part-1.html</id><summary type="html">&lt;p&gt;The amount of time it takes to back up and restore a computer depends on the
+amount of effort you want to go into. There is a massive selection of software
+that will attempt to guide you through the process.&lt;/p&gt;
+&lt;p&gt;I have been using the utilities that come with a GNU/Linux operating system
+for this task for their brazen simplicity and reliability. In this post, I
+want to show you how to take a complete bit for bit copy of your hard drive
+that can be restored at any time.&lt;/p&gt;
+&lt;p&gt;There are some caveats. When you restore, it needs to be on a hard drive of
+the same size or larger, and will overwrite anything on the drive. The benefit
+is that even if you absolutely ruin the data on your drive, restoration will
+include everything, including the boot sector, so on start-up it will be as if
+nothing ever happened. &lt;/p&gt;
+&lt;p&gt;Anyways, on to the commands.&lt;/p&gt;
+&lt;h2&gt;What you may have already seen&lt;/h2&gt;
+&lt;p&gt;The target drive must not contain the operating system you want to boot up, so
+booting from a live-cd is recommended, unless you are dual booting from a
+completely separate drive or something.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; sudo dd &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/dev/sda &lt;span class="nv"&gt;of&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/media/myExternalDrive/myBackup.img
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;code&gt;dd&lt;/code&gt; is the key here, often jokingly refered to as the "Disk Destroyer," don't
+ play around with this unless you know what your doing, especially with root
+permissions (see the &lt;a href="http://en.wikipedia.org/wiki/Dd_(Unix)"&gt;wikipedia article&lt;/a&gt; for some history). This will
+accomplish our goal in the most inefficient manner possible. But lets go over
+this a little bit:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;if=/dev/sda&lt;/code&gt;&lt;/strong&gt;: is the special file that represents your hard drive in its
+most raw form. There are many ways to determine which one you want, a simple
+method is to open it in a graphical file manager, then go to the command line
+and type &lt;code&gt;mount&lt;/code&gt; to see a list of mounted drives. &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;of=...&lt;/code&gt;&lt;/strong&gt;: is the path to the output file. The file doesn't really have a
+specific file format, I just append the &lt;code&gt;.img&lt;/code&gt; at the end for my own
+reference.&lt;/p&gt;
+&lt;p&gt;This has some pretty drastic drawbacks. First, there is no indication of your
+current progress through the operation. You just sit and watch the cursor
+blink and maybe watch the output file grow in the file manager. Furthermore
+the image is going to contain empty information, the free space on the disk
+which are just zero's.&lt;/p&gt;
+&lt;h2&gt;A step further&lt;/h2&gt;
+&lt;p&gt;I now want to include two commands into the previous one. We are going to do
+this by piping the output from &lt;code&gt;dd&lt;/code&gt; into the following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; dd &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/dev/sda | pv | gzip --fast &amp;gt; /media/myExternalDrive/myBackup.img
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;pv&lt;/code&gt;&lt;/strong&gt;: Pipe viewer, will provide information about the data as it passes
+through the commands. Unfortunately, this command does not seem to come
+standard with most installations and you might need to install it. Don't worry
+ though, a live cd will still allow you to install this.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;gzip&lt;/code&gt;&lt;/strong&gt;: Compression, will eliminate the zero data from the image.&lt;/p&gt;
+&lt;p&gt;This is better, it will show how fast the data is going through the pipe and
+keep the image down to the size of the actual data (actually, there is one
+more caveat with this, read on for more).&lt;/p&gt;
+&lt;p&gt;However &lt;code&gt;pv&lt;/code&gt; has no idea how much data its expecting to pass through it and so
+it can't guess how long the process is going to take. Furthermore, even with
+the &lt;code&gt;--fast&lt;/code&gt; option, &lt;code&gt;gzip&lt;/code&gt; can be a bottleneck since it only runs on a single
+core.&lt;/p&gt;
+&lt;h2&gt;Figuring how the data size&lt;/h2&gt;
+&lt;p&gt;For this I use the tool &lt;code&gt;parted&lt;/code&gt;. I will use it to determine the size of the
+entire drive in Bytes.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo parted /dev/sda
+&lt;span class="o"&gt;(&lt;/span&gt;parted&lt;span class="o"&gt;)&lt;/span&gt; unit B
+&lt;span class="o"&gt;(&lt;/span&gt;parted&lt;span class="o"&gt;)&lt;/span&gt; print
+
+:::
+Model: ATA Corsair Force SS &lt;span class="o"&gt;(&lt;/span&gt;scsi&lt;span class="o"&gt;)&lt;/span&gt;
+Disk /dev/sda: 60022480896B
+Sector size &lt;span class="o"&gt;(&lt;/span&gt;logical/physical&lt;span class="o"&gt;)&lt;/span&gt;: 512B/512B
+Partition Table: msdos
+
+Number  Start     End           Size          Type     File system
+ 1      1048576B  60021538815B  60020490240B  primary  ext4
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The command output shows the results for my laptops hard drive, the number I'm
+interested in is the &lt;code&gt;60022480896B&lt;/code&gt;, size of my hard drive in Bytes. We take
+this and give it to the &lt;code&gt;-s&lt;/code&gt; argument for &lt;code&gt;pv&lt;/code&gt; without the &lt;code&gt;B&lt;/code&gt; at the end (pv
+expects the number to be bytes).&lt;/p&gt;
+&lt;p&gt;Which now gives us:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; dd &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/dev/sda | pv -s 60022480896 | &lt;span class="se"&gt;\&lt;/span&gt;
+    gzip --fast &amp;gt; /media/myExternalDrive/myBackup.img
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;(&lt;em&gt;Note: the &lt;code&gt;\&lt;/code&gt; simply tells bash to continue on the next line&lt;/em&gt;)&lt;/p&gt;
+&lt;p&gt;And now pv will tell you how long the transfer is going to take. Now lets take
+care of the &lt;code&gt;gzip&lt;/code&gt; issue.&lt;/p&gt;
+&lt;h2&gt;Speed up compression&lt;/h2&gt;
+&lt;p&gt;I recently came across a utility called &lt;em&gt;pigz&lt;/em&gt; (pronounced &lt;em&gt;pig-zee&lt;/em&gt;), which
+creates completely compatible gzip archives whilst using multiple threads. The
+utility had no problem maxing out my cpu for the entire duration of the
+operation and sped up the entire process immensely. Check out &lt;a href="http://zlib.net/pigz/"&gt;the homepage
+here&lt;/a&gt; for more info.&lt;/p&gt;
+&lt;p&gt;So finally we have:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; dd &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/dev/sda | pv -s 60022480896 | &lt;span class="se"&gt;\&lt;/span&gt;
+    pigz --fast &amp;gt; /media/myExternalDrive/myBackup.img
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Some finishing touches&lt;/h2&gt;
+&lt;p&gt;I really don't like using &lt;code&gt;/dev/sda&lt;/code&gt; to specify the hard drive, since it is
+possible for this to change. Rather try using:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;disk&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;by&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;ata&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Corsair_Force_SSD&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Which gives you a unique identifier for each disk that should never change. (I
+believe it doesn't change across systems either, but I'll have to check.)&lt;/p&gt;
+&lt;p&gt;Also, remember when I said that gzip will eliminate the useless data? Well it
+will, but only if it actually sees null values. The empty space on your hard
+drive might be filled with random data (especially if you use encryption). If
+you want to make sure the free space is actually zero you could do:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; dd &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/dev/zero &lt;span class="nv"&gt;of&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/path/to/somewhere.img &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+    rm /path/to/somewhere
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Which would create a file containing only zeros, which will get as big as
+there is free space available, and then removes it. It takes a while since it
+actually forces the drive to write zeros to the disk.&lt;/p&gt;
+&lt;h2&gt;Restoration&lt;/h2&gt;
+&lt;p&gt;You reverse the process. Use a similar command to decompress the file, pipe it
+to pv, then dd which writes it back to the disk, such as:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;pigz -d /media/myExternalDrive/myBackup.img | &lt;span class="se"&gt;\&lt;/span&gt;
+    pv -s 60022480896 | dd &lt;span class="nv"&gt;of&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/dev/sda
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The &lt;code&gt;-d&lt;/code&gt; option specifies decompression, and is the same for &lt;code&gt;gzip&lt;/code&gt;. Note that
+you always want the decompressed version to be piped through &lt;code&gt;pv&lt;/code&gt; since thats
+what the number of bytes actually represents. I suppose you could use a
+different number for decompression corresponding to the image size and placing
+decompression after &lt;code&gt;pv&lt;/code&gt;.&lt;/p&gt;
+&lt;h2&gt;Improvements&lt;/h2&gt;
+&lt;p&gt;I'm pretty certain it would be possible to mount the file system from the raw
+image file with &lt;code&gt;losetup&lt;/code&gt; and some other tools, which would make this strategy
+for backup way more useful.&lt;/p&gt;
+&lt;p&gt;Let me know if you found this interesting, feel free to ask questions in the
+comments.&lt;/p&gt;</summary><category term="Linux"></category><category term="GNU"></category><category term="backup"></category><category term="bash"></category></entry><entry><title>What beginners should know about vim</title><link href="http://allgood38.github.io/what-beginners-should-know-about-vim.html" rel="alternate"></link><updated>2013-05-16T19:08:06-04:00</updated><author><name>Stephen Cripps</name></author><id>tag:allgood38.github.io,2013-05-16:what-beginners-should-know-about-vim.html</id><summary type="html">&lt;p&gt;Vim is a great editor, I've been using it for several years, and I don't think
 there will ever be any going back for me. The commands and "shortcuts" are so
 engrained in how I expect to type that I shrug off any tool that isn't vim
 like. Sometimes to the point of being just plain irrational. Either way,
